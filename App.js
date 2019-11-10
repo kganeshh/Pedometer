@@ -2,27 +2,34 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Pedometer } from "expo-sensors";
 import CircularProgressBar from "./Componnets/CircularProgressBar/CircularProgressBar";
-
+const TEN_THOUSAND = 10000, ZERO = 0;
 export default class App extends Component {
   state = {
-    currentStepCount: 0
+    currentStepCount: 1500
   }
   componentDidMount() {
     this._subscribe();
   }
   _subscribe = () => {
+    const { currentStepCount } = this.state;
     this._subscription = Pedometer.watchStepCount(result => {
-      this.setState({
-        currentStepCount: result.steps
+      this.setState((state) => {
+        const { currentStepCount } = state;
+        // calculating steps or resetting when reaching 5001 
+        let steps = currentStepCount === ZERO ? result.steps :
+          currentStepCount === TEN_THOUSAND ?
+            ZERO : currentStepCount + 1;
+        return {
+          currentStepCount: steps
+        }
       });
     });
   }
   render() {
-    console.log(this.state.currentStepCount);
     return (
       <View style={styles.container}>
-        <Text style={styles.instructions}>{this.state.currentStepCount}</Text>
-        <CircularProgressBar />
+        <CircularProgressBar steps={this.state.currentStepCount} />
+        <Text style={styles.instructions}>total steps: {this.state.currentStepCount}</Text>
       </View>
     );
   }
@@ -33,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: "linear-gradient(to right, rgb(255, 81, 47), rgb(221, 36, 118))",
   },
   welcome: {
     fontSize: 20,
@@ -44,6 +51,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-    fontSize: 30
+    fontSize: 30,
+    marginTop: 10
   },
 });

@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 10995,
-  "expoServerNgrokUrl": "https://ua-vaw.anonymous.healthify.exp.direct",
-  "packagerNgrokUrl": "https://packager.ua-vaw.anonymous.healthify.exp.direct",
-  "ngrokPid": 11018,
+  "packagerPid": 22170,
+  "expoServerNgrokUrl": "https://ge-d33.anonymous.healthify.exp.direct",
+  "packagerNgrokUrl": "https://packager.ge-d33.anonymous.healthify.exp.direct",
+  "ngrokPid": 22187,
   "webpackServerPort": 19006
 }
