@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Pedometer } from "expo-sensors";
 import CircularProgressBar from "./Componnets/CircularProgressBar/CircularProgressBar";
 const TEN_THOUSAND = 10000, ZERO = 0;
-export default class App extends Component {
+export default class App extends PureComponent {
   state = {
-    currentStepCount: 1500
+    currentStepCount: 0
   }
   componentDidMount() {
     this._subscribe();
@@ -18,7 +18,8 @@ export default class App extends Component {
         // calculating steps or resetting when reaching 5001 
         let steps = currentStepCount === ZERO ? result.steps :
           currentStepCount === TEN_THOUSAND ?
-            ZERO : currentStepCount + 1;
+            ZERO :
+            currentStepCount + 1;
         return {
           currentStepCount: steps
         }

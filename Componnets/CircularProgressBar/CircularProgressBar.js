@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, View, WebView } from 'react-native';
 import { Circle } from "react-native-svg";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 const STEP_TOTAL = 10000,
     HUNDRED = 100;
 
-export default class CircularProgressBar extends Component {
+export default class CircularProgressBar extends PureComponent {
     state = {
-        fill: 50
+        fill: 0,
+        percentage: 0
     }
     // calculate steps percentage 
     calcualate_step_percentage = steps => {
@@ -19,22 +20,18 @@ export default class CircularProgressBar extends Component {
         // svg graph width percentage calculations    
         let roundedpercentage = Math.round(final_steps_percemntage, 2),
             fill_Value = this.state.fill !== roundedpercentage ? (this.setState({
-                fill: roundedpercentage
-            })) : 0;
-
-        return final_steps_percemntage;
+                fill: roundedpercentage,
+                percentage: final_steps_percemntage
+            })) : {
+                    percentage: final_steps_percemntage
+                };
     };
-    componentDidMount() {
-        this.setState({
-            fill: 25
-        });
-    }
     render() {
         const { steps } = this.props;
         let steppercentage = this.calcualate_step_percentage(steps); // step percentage 
         return (
             <View style={styles.container}>
-                <Text>Daily</Text>
+                <Text style={styles.headerText}>Daily</Text>
                 <AnimatedCircularProgress
                     arcSweepAngle={240}
                     rotation={240}
@@ -50,11 +47,12 @@ export default class CircularProgressBar extends Component {
                     {
                         (fill) => (
                             <Text style={styles.fontpercentage}>
-                                {steppercentage}%
+                                {this.state.percentage}%
                             </Text>
                         )
                     }
                 </AnimatedCircularProgress>
+
             </View>
         );
     }
@@ -67,6 +65,10 @@ const styles = StyleSheet.create({
     },
     fontpercentage: {
         fontSize: 50,
-        marginTop: "-58px"
+        marginTop: -40
+
+    },
+    headerText: {
+        marginBottom: 20
     }
 })
